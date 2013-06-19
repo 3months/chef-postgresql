@@ -126,12 +126,10 @@ if node[:postgresql][:master] && (not node[:postgresql][:standby_ips].empty?)
     bash "Copy Master data files to Standby" do
       user "root"
       cwd "/var/lib/postgresql/#{node[:postgresql][:version]}/main/"
-      code <<-EOH
-        invoke-rc.d postgresql stop
-        rsync -av --exclude=pg_xlog * #{address}:/var/lib/postgresql/#{node[:postgresql][:version]}/main/
-        touch .initial_transfer_complete
-        invoke-rc.d postgresql start
-      EOH
+      code "invoke-rc.d postgresql stop && "\
+           "rsync -av --exclude=pg_xlog * #{address}:/var/lib/postgresql/#{node[:postgresql][:version]}/main/ && "\
+           "touch .initial_transfer_complete && "\
+           "invoke-rc.d postgresql start"
       not_if do
         File.exists?("/var/lib/postgresql/#{node[:postgresql][:version]}/main/.initial_transfer_complete")
       end
