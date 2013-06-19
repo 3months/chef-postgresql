@@ -95,6 +95,8 @@ replication and for a Master or Standby.
   false. In this case, replication will not be configured, and the rest of the 
   standby settings will be ignored.
 
+**Warning:** The 'root' user of the master must be configured to be able to log in to each of the slaves without a password (i.e. using an SSH key) BEFORE this recipe runs.
+
 ### Master Server
 
 * `default[:postgresql][:wal_level]` - set to `hot_standby` to enable Hot standby.
