@@ -90,7 +90,7 @@ end
 directory "#{node[:postgresql][:dir]}" do
   owner "postgres"
   group "postgres"
-  mode 0600
+  mode 0700
   recursive true
   action :create
 end
@@ -99,7 +99,7 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   source "debian.postgresql.conf.erb"
   owner "postgres"
   group "postgres"
-  mode 0600
+  mode 0700
   notifies :restart, resources(:service => "postgresql")
 end
 
@@ -111,7 +111,7 @@ if node[:postgresql][:standby]
     source "recovery.conf.erb"
     owner "postgres"
     group "postgres"
-    mode 0600
+    mode 0700
     variables(
       :primary_conninfo => "host=#{master_ip} application_name=#{node_name}",
       :trigger_file => "/var/lib/postgresql/#{node[:postgresql][:version]}/main/trigger"
