@@ -58,6 +58,8 @@ end
 # runs as user 'postgres', so we can execute the 'role' and 'database' resources
 # as 'root' later on, passing the below credentials in the PG client.
 bash "assign-postgres-password" do
+  retries 10
+  retry_delay 3
   user 'postgres'
   code <<-EOH
 echo "ALTER ROLE postgres ENCRYPTED PASSWORD '#{node[:postgresql][:password][:postgres]}';" | psql
