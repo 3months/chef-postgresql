@@ -4,9 +4,9 @@ local   all             postgres                                peer
 # TYPE      DATABASE    USER        CIDR-ADDRESS        METHOD
 local       all         all                             md5
 <% node.postgresql.hba.each do |h| %>
-host        all         all         <%= h["address"] %> <%= h["method"] %>
+host        <%= h["database"] %>         <%= h["user"]  %>        <%= h["address"] %>  <%= h["method"] %>
 <% end %>
 
 <% node.postgresql.standby_ips.each do |ip| %>
-host        replication all         <%= ip -%>/32       trust
+host        replication all         <%= ip =~ /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/  ? "#{ip}/32" : ip -%>       trust
 <% end %>

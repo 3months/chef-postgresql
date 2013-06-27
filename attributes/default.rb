@@ -109,8 +109,8 @@ end
 
 # Host Based Access
 default[:postgresql][:hba] = [
-  { :method => 'md5', :address => '127.0.0.1/32' },
-  { :method => 'md5', :address => '::1/128' }
+  { :database => "all", :user => "all", :method => 'md5', :address => '127.0.0.1/32' },
+  { :database => "all", :user => "all", :method => 'md5', :address => '::1/128' }
 ]
 
 # Replication/Hot Standby (set to postgresql defaults)
@@ -127,12 +127,12 @@ default[:postgresql][:wal_sender_delay] = "1s"
 default[:postgresql][:wal_keep_segments] = 0
 default[:postgresql][:vacuum_defer_cleanup_age] = 0
 default[:postgresql][:replication_timeout] = "60s"
-# If you want to do synchronous streaming replication, 
-# profide a string containing a comma-separated list of 
+# If you want to do synchronous streaming replication,
+# profide a string containing a comma-separated list of
 # node names for "synchronous_standby_names"
-default[:postgresql][:synchronous_standby_names] = nil 
+default[:postgresql][:synchronous_standby_names] = nil
 # list of IP addresses for standby nodes
-default[:postgresql][:standby_ips] = [] 
+default[:postgresql][:standby_ips] = []
 
 # Standby Servers
 default[:postgresql][:standby] = false # Is this a standby?
